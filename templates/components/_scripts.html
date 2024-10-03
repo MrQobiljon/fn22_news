@@ -1,0 +1,78 @@
+{% load static %}
+<!-- JavaScript Libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+
+
+<script>
+    const apiKey = '10cada85de542bda8faafc109d8c4187';
+
+    function showWeather(lat, lon) {
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+        fetch(weatherUrl)
+            .then(response => response.json())
+            .then(data => {
+                const temperature = data.main.temp; // Celsiusda bo'ladi
+                const description = data.weather[0].description;
+                const city = data.name; // Shaharning nomi
+
+                document.getElementById("weather").innerHTML = `${temperature}°C`;
+                document.getElementById("city").innerHTML = `${city}`;
+            })
+            .catch(error => {
+                document.getElementById("weather").innerHTML = "No data";
+                document.getElementById("city").innerHTML = "No data";
+            });
+    }
+
+    function showPosition(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        // Ob-havo va joylashuv ma'lumotlarini yuklash
+        showWeather(latitude, longitude);
+    }
+
+    function showError(error) {
+        document.getElementById("location").innerHTML = "No data";
+        document.getElementById("weather").innerHTML = "No data";
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            document.getElementById("location").innerHTML = "No data";
+        }
+    }
+
+    window.onload = function () {
+        const dateElement = document.getElementById('current-date');
+        const dateElemtmet2 = document.getElementById('current-date2');
+
+        const today = new Date();
+        const options = {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'};
+
+        dateElement.innerHTML = today.toLocaleDateString('en-US', options);
+        dateElemtmet2.innerHTML = today.toLocaleDateString('en-US', options);
+        getLocation();
+    };
+
+</script>
+
+
+
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.0.0/mdb.umd.min.js"
+></script>
+
+
+<!-- Template Javascript -->
+<script src="{% static 'js/main.js' %}"></script>

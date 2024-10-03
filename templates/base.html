@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Newsers - Free HTML Magazine Template</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+
+        <style>
+            .success{
+                color: green;
+            }
+            .warning{
+                color: yellow;
+            }
+        </style>
+
+        {% include 'components/_style.html' %}
+    </head>
+
+    <body>
+
+        <!-- Spinner Start -->
+        <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+            <div class="spinner-grow text-primary" role="status"></div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!--Navbar start -->
+        {% include 'components/_navbar.html' %}
+        <!--Navbar End-->
+
+
+        <!-- Modal Search Start -->
+        {% include 'components/_modal_search.html' %}
+        <!-- Modal Search End -->
+
+
+        <!-- Features Start -->
+        {% block features %}
+        {% include 'components/_features.html' %}
+        {% endblock features %}
+        <!-- Features End -->
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% block content %}
+        {% endblock content %}
+
+
+        <!-- Footer Start -->
+        {% include 'components/_footer.html' %}
+        <!-- Footer End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary border-2 border-white rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+        {% include 'components/_scripts.html' %}
+
+    </body>
+
+</html>
